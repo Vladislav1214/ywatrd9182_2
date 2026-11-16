@@ -27,14 +27,6 @@ jobs:
           region=eu-frankfurt-1
           key_file=/home/runner/.oci/key.pem
           EOF
-      - name: Debug check
-        run: |
-          echo "Boot volume state:"
-          oci bv boot-volume get --boot-volume-id "${{ secrets.OCI_BOOT_VOLUME }}" --query 'data."lifecycle-state"' --raw-output 2>&1 | tail -3
-          echo "Boot volume AD:"
-          oci bv boot-volume get --boot-volume-id "${{ secrets.OCI_BOOT_VOLUME }}" --query 'data."availability-domain"' --raw-output 2>&1 | tail -3
-          echo "Subnet state:"
-          oci network subnet get --subnet-id "${{ secrets.OCI_SUBNET }}" --query 'data."lifecycle-state"' --raw-output 2>&1 | tail -3
       - name: Launch instance
         run: |
           EXISTING=$(oci compute instance list --compartment-id "${{ secrets.OCI_COMPARTMENT }}" \
